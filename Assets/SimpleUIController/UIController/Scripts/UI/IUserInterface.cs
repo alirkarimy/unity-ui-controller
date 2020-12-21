@@ -15,4 +15,6 @@ public interface IUserInterface
     void Destroy();
 
     UIType GetType();
+    void SetShowType(UIShowType showType);
+    UIShowType GetShowType();
 }

@@ -15,25 +15,28 @@ public enum UIShowType
     OVER_CURRENT
 };
 #endregion
+
 [RequireComponent(typeof(IUIFactory))]
 public class UIController : MonoBehaviour
 {
-	public static UIController instance;
 
+    #region Refrences
 
-    #region UI Refrences    
+    public static UIController instance;
+
     public IUIFactory uiFactory;
-    #endregion
 
-    #region variables
     [HideInInspector]
     public IUserInterface currentWindow;
 
     public Stack<IUserInterface> dialogs = new Stack<IUserInterface>();
+  
     #endregion
-    
+
     #region callbacks
-	public Action OnScreenClear;
+
+    public Action OnScreenClear;
+   
     #endregion
 
 	public void Awake()
@@ -49,49 +52,48 @@ public class UIController : MonoBehaviour
         uiFactory = GetComponent<IUIFactory>();
     }
 
+    private void OnOneDialogOpened(IUserInterface dialog)
+    {
+
+    }
+
+    private void OnOneDialogClosed(IUserInterface dialog)
+    {
+        if (currentWindow == dialog)
+        {
+            currentWindow = null;
+            dialogs.Pop();
+            if (OnScreenClear != null && dialogs.Count == 0)
+                OnScreenClear();
+
+            if (dialogs.Count > 0)
+            {
+                ShowDialog(dialogs.Peek(), UIShowType.SHOW_PREVIOUS);
+            }
+        }
+    }
+
+    #region Show Dialog
+
+    #region Sync
+
     public void ShowDialog(int type)
 	{
 		ShowDialog((UIType)type, UIShowType.DONT_SHOW_IF_OTHERS_SHOWING); 
 	}
 
-	public void ShowDialog(UIType type, UIShowType option = UIShowType.REPLACE_CURRENT)
-	{
+    public void ShowDialog(UIType type, UIShowType option = UIShowType.REPLACE_CURRENT)
+    {
         IUserInterface dialog = GetDialog(type);
-		ShowDialog(dialog, option);
-	}
+        ShowDialog(dialog, option);
+    }
 
-    //public void ShowYesNoDialog(string title, string content, UnityAction onYesListener, UnityAction onNoListenter, DialogType yesNoDialog = DialogType.YesNo, DialogShow option = DialogShow.REPLACE_CURRENT)
-    //{
-    //    var dialog = (YesNoDialog)GetDialog(yesNoDialog);
-    //    if (!dialog)
-    //        dialog = (YesNoDialog)GetDialog(DialogType.YesNo);
-    //    if (dialog.title != null) dialog.title.SetText(title);
-    //    if (dialog.message != null) dialog.message.SetText(content);
-    //    if (onYesListener != null) dialog.onYesClick += onYesListener;
-    //    if (onNoListenter != null) dialog.onNoClick += onNoListenter;
-    //    ShowDialog(dialog, option);
-    //}
-    //public void ShowTutorialDialog(TutorialSettings dialogSettings, UnityAction OnNextClick, UnityAction OnSkipClick, DialogShow option = DialogShow.REPLACE_CURRENT)
-    //{
-    //    var dialog = (TutorialDialog)GetDialog(DialogType.Tutorial);
-    //    if (OnNextClick != null) dialog.onNextClick += OnNextClick;
-    //    if (OnSkipClick != null) dialog.onSkipClick += OnSkipClick;
-    //    if (dialog.title != null) dialog.title.SetText(dialogSettings.title);
-    //    if (dialog.message != null) dialog.message.SetText(dialogSettings.message);
-    //    dialog.settings = dialogSettings;
-    //    ShowDialog(dialog, option);
-    //}
-
- //   public void ShowOkDialog(string title, string content, Action onOkListener, DialogShow option = DialogShow.REPLACE_CURRENT)
-	//{
-	//	var dialog = (OkDialog)GetDialog(DialogType.Ok);
- //       if (dialog.title != null) dialog.title.SetText(title);
-	//	if (dialog.message != null) dialog.message.SetText(content);
-	//	dialog.onOkClick = onOkListener;
-	//	ShowDialog(dialog, option);
-	//}
-
-	public void ShowDialog(IUserInterface ui, UIShowType option = UIShowType.REPLACE_CURRENT) 
+   
+    public IUserInterface GetDialog(UIType type)
+    {
+        return uiFactory.GetUI(type); ;
+    }
+    public void ShowDialog(IUserInterface ui, UIShowType option = UIShowType.OVER_CURRENT) 
 	{
         if (ui == null) return;
 
@@ -126,18 +128,41 @@ public class UIController : MonoBehaviour
 
     }
 
-    public IUserInterface GetDialog(UIType type)
-	{
-        return uiFactory.GetUI(type);
-        //      IUserInterface dialog = baseDialogs.GetUI(type);
+    #endregion
 
-        //      if (dialog == null) return null;
-        //      if (dialog.GetInstantiatable() == null) return null;
-
-        //return Instantiate(dialog.GetInstantiatable(), transform.position, transform.rotation).GetComponent<IUserInterface>();
+    #region Async
+#if async
+   
+     public void ShowDialogAsync(UIType type, UIShowType option = UIShowType.REPLACE_CURRENT)
+    {
+        StartCoroutine(LoadDialogAsync(type,option));
     }
+    IEnumerator LoadDialogAsync(UIType type,UIShowType option)
+    {
 
-	public void CloseCurrentDialog()
+        IAsyncOperation<GameObject> asyncOperation = uiFactory.GetUIAsync(type);
+
+        if (!asyncOperation.IsValid) yield break;
+
+        while (!asyncOperation.IsDone)
+            yield return null;
+
+        if (asyncOperation.Result == null) yield break;
+
+        IUserInterface dialog = asyncOperation.Result.GetComponent<IUserInterface>();
+
+        if (dialog == null) yield break;
+        if (dialog.GetInstantiatable() == null) yield break;
+        ShowDialog(dialog,option);
+    }
+#endif
+    #endregion
+
+    #endregion
+
+    #region Close Dialog
+
+    public void CloseCurrentDialog()
 	{
 		if (currentWindow != null)
 			currentWindow.Close();
@@ -152,7 +177,11 @@ public class UIController : MonoBehaviour
         }
     }
 
-	public bool IsDialogShowing()
+#endregion
+
+#region DialogsStatus
+
+    public bool IsDialogShowing()
 	{
 		return currentWindow != null;
 	}
@@ -162,26 +191,7 @@ public class UIController : MonoBehaviour
         if (currentWindow == null) return false;
         return currentWindow.GetType() == type;
     }
-
-	private void OnOneDialogOpened(IUserInterface dialog)
-	{
-
-	}
-
-	private void OnOneDialogClosed(IUserInterface dialog)
-	{
-        if (currentWindow == dialog)
-        {
-            currentWindow = null;
-            dialogs.Pop();
-            if (OnScreenClear != null && dialogs.Count == 0)
-                OnScreenClear();
-
-            if (dialogs.Count > 0)
-            {
-                ShowDialog(dialogs.Peek(), UIShowType.SHOW_PREVIOUS);
-            }
-        }
-	}
+   
+#endregion
 
 }

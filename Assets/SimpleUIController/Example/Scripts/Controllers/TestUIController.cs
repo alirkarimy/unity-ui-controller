@@ -13,10 +13,16 @@ public class TestUIController : MonoBehaviour
     private void Start()
     {
         buttonShowUI.SetText(string.Format("Show {0}", type.ToString()));
+        
     }
+
     public void ShowUI()
     {
+#if async
+        UIController.instance.ShowDialogAsync(type, UIShowType.STACK);
+#else
         UIController.instance.ShowDialog(type, UIShowType.STACK);
+#endif
     }
 
     public void CloseCurrentUI()

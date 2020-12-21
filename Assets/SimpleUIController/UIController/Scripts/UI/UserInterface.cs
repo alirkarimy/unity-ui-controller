@@ -21,6 +21,7 @@ public class UserInterface :MonoBehaviour, IUserInterface
 
     #region Inspector Area
     [SerializeField] private UIType mType;
+    [SerializeField] private UIShowType mShowType;
     #endregion
 
     protected virtual void Awake()
@@ -114,12 +115,22 @@ public class UserInterface :MonoBehaviour, IUserInterface
 
     public void @Destroy()
     {
-        if(GetInstantiatable()) Destroy(GetInstantiatable());
+        AssetManager.Instance.ReleaseInstance(GetInstantiatable());
     }
 
     UIType IUserInterface.GetType()
     {
         return mType;
+    }
+
+    public UIShowType GetShowType()
+    {
+        return mShowType;
+    }
+
+    public void SetShowType(UIShowType showType)
+    {
+        mShowType = showType;
     }
     #endregion
 }

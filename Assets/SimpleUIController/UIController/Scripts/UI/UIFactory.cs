@@ -19,13 +19,19 @@ public class UIFactory : MonoBehaviour, IUIFactory
     public IUserInterface GetUI(UIType type)
     {
         IUserInterface dialog = baseDialogs[(int)type];
-        
+
         if (dialog == null) return null;
         if (dialog.GetInstantiatable() == null) return null;
 
         return Instantiate(dialog.GetInstantiatable(), transform.position, transform.rotation).GetComponent<IUserInterface>();
     }
 
+#if async
+    public IAsyncOperation<GameObject> GetUIAsync(UIType type)
+    {
+        return AssetManager.Instance.InstantiateAsync(type.ToString());
+    }
+#endif
 
 
 }

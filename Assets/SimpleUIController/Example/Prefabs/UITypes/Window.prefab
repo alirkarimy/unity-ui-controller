@@ -477,6 +477,7 @@ MonoBehaviour:
   enableAd: 1
   enableEscape: 1
   mType: 0
+  mShowType: 0
   image: {fileID: 4883782300295487500}
 --- !u!114 &7793654583078535448
 MonoBehaviour:

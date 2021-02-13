@@ -20,8 +20,8 @@ public class UserInterface :MonoBehaviour, IUserInterface
     #endregion
 
     #region Inspector Area
-    [SerializeField] private UIType mType;
-    [SerializeField] private UIShowType mShowType;
+    private UIType mType;
+    private UIShowType mShowType;
     #endregion
 
     protected virtual void Awake()

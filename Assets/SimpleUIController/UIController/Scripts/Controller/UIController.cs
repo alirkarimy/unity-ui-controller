@@ -131,7 +131,7 @@ public class UIController : MonoBehaviour
     #endregion
 
     #region Async
-#if async
+
    
      public void ShowDialogAsync(UIType type, UIShowType option = UIShowType.REPLACE_CURRENT)
     {
@@ -155,7 +155,7 @@ public class UIController : MonoBehaviour
         if (dialog.GetInstantiatable() == null) yield break;
         ShowDialog(dialog,option);
     }
-#endif
+
     #endregion
 
     #endregion
@@ -179,7 +179,7 @@ public class UIController : MonoBehaviour
 
 #endregion
 
-#region DialogsStatus
+    #region DialogsStatus
 
     public bool IsDialogShowing()
 	{

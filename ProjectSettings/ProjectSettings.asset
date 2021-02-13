@@ -500,7 +500,13 @@ PlayerSettings:
   webGLCompressionFormat: 1
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: 
+    4: 
+    7: 
+    13: async
+    14: 
+    25: async
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}

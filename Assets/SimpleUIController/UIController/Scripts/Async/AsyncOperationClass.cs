@@ -15,12 +15,11 @@ public class AsyncOperationClass<T> : IAsyncOperation<T>
         this.asyncOperation = asyncOperation; 
 
     }
+    public bool IsDone => asyncOperation.IsDone;
 
-    public bool IsDone {get { if (asyncOperation == null) return false; else return asyncOperation.IsDone; } }
+    public T Result => asyncOperation.Result;
 
-    public T Result {get { if (asyncOperation == null) return default(T); else return asyncOperation.Result; } }
-
-    public bool IsValid { get { if (asyncOperation == null) return false; return asyncOperation.IsValid(); } }
+    public bool IsValid =>  asyncOperation.IsValid();
 
 }
 #endif

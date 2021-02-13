@@ -115,7 +115,7 @@ public class UserInterface :MonoBehaviour, IUserInterface
 
     public void @Destroy()
     {
-        AssetManager.Instance.ReleaseInstance(GetInstantiatable());
+        AssetManager.ReleaseInstance(GetInstantiatable());
     }
 
     UIType IUserInterface.GetType()

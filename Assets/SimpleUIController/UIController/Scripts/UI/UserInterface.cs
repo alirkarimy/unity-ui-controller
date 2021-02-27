@@ -22,6 +22,7 @@ public class UserInterface :MonoBehaviour, IUserInterface
     #region Inspector Area
     private UIType mType;
     private UIShowType mShowType;
+
     #endregion
 
     protected virtual void Awake()
@@ -107,6 +108,8 @@ public class UserInterface :MonoBehaviour, IUserInterface
         onOpened = onOpen;
         onClosed = onClose;
     }
+
+    public bool EnableEscape { get { return enableEscape; } }
 
     public GameObject GetInstantiatable()
     {

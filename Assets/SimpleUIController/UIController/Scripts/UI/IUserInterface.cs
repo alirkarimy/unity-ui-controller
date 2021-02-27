@@ -10,6 +10,7 @@ public interface IUserInterface
     void Show();
     void Hide();
     void Close();
+    bool EnableEscape { get; }
 
     GameObject GetInstantiatable();
     void Destroy();

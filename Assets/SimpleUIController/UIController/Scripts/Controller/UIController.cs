@@ -35,9 +35,9 @@ public class UIController : MonoBehaviour
 
     #region callbacks
 
-    Action<IUserInterface> onDialogOpen;
-    Action<IUserInterface> onDialogClose;
-    public Action OnScreenClear;
+    public static Action<IUserInterface> onDialogOpen;
+    public static Action<IUserInterface> onDialogClose;
+    public static Action OnScreenClear;
    
     #endregion
 

@@ -135,5 +135,10 @@ public class UserInterface :MonoBehaviour, IUserInterface
     {
         mShowType = showType;
     }
+
+    public Canvas GetCanvas()
+    {
+        return GetComponent<Canvas>();
+    }
     #endregion
 }

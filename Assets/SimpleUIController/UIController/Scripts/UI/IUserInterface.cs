@@ -18,4 +18,6 @@ public interface IUserInterface
     UIType GetType();
     void SetShowType(UIShowType showType);
     UIShowType GetShowType();
+
+    Canvas GetCanvas();
 }

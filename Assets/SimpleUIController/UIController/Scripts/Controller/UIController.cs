@@ -65,6 +65,9 @@ public class UIController : MonoBehaviour
         {
             currentWindow = null;
             dialogs.Pop();
+
+            onDialogClose?.Invoke(dialog);
+
             if (OnScreenClear != null && dialogs.Count == 0)
                 OnScreenClear();
 
@@ -72,7 +75,6 @@ public class UIController : MonoBehaviour
             {
                 ShowDialog(dialogs.Peek(), UIShowType.SHOW_PREVIOUS);
             }
-            onDialogClose?.Invoke(dialog);
         }
     }
 

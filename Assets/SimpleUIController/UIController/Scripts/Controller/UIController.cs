@@ -74,6 +74,9 @@ public class UIController : MonoBehaviour
             if (dialogs.Count > 0)
             {
                 ShowDialog(dialogs.Peek(), UIShowType.SHOW_PREVIOUS);
+            }else
+            {
+                OnScreenClear?.Invoke();
             }
         }
     }

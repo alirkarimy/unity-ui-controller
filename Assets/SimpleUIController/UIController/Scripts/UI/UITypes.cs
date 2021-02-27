@@ -1,6 +1,6 @@
 ﻿
 public enum UIType
 {
-    Window,
-    Modal
+    Inventury,
+    Settings
 }

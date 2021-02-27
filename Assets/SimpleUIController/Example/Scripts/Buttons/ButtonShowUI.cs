@@ -5,5 +5,18 @@ using UnityEngine;
 
 public class ButtonShowUI : MyButton
 {
-   
+    public UIType UIToShow;
+    public UIShowType UIShowType;
+
+    public override void OnButtonClick()
+    {
+        base.OnButtonClick();
+
+#if async
+        UIController.instance.ShowDialogAsync(UIToShow, UIShowType);
+#else
+        UIController.instance.ShowDialog(UIToShow, UIShowType);
+#endif
+        
+    }
 }

@@ -27,7 +27,6 @@ public class UIOverlay : MonoBehaviour
 
     private void OnDialogOpened(IUserInterface obj)
     {
-        Debug.Log(0);
         overlay.enabled = true;
 
         if (obj.EnableEscape)
@@ -43,8 +42,6 @@ public class UIOverlay : MonoBehaviour
 
     private void OnDialogClosed(IUserInterface obj)
     {
-        Debug.Log(1);
-
         overlay.enabled = false;
     }
 

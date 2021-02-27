@@ -11,7 +11,7 @@ public enum UIShowType
     DONT_SHOW_IF_OTHERS_SHOWING,
     REPLACE_CURRENT,
     STACK,
-    SHOW_PREVIOUS,// this type will only use inside the UIController for showing stacked UserInterfaces
+    SHOW_PREVIOUS,//Warning : Don't use this outside of UIController 
     OVER_CURRENT
 };
 #endregion
@@ -30,11 +30,13 @@ public class UIController : MonoBehaviour
     public IUserInterface currentWindow;
 
     public Stack<IUserInterface> dialogs = new Stack<IUserInterface>();
-  
+
     #endregion
 
     #region callbacks
 
+    Action<IUserInterface> onDialogOpen;
+    Action<IUserInterface> onDialogClose;
     public Action OnScreenClear;
    
     #endregion
@@ -54,7 +56,7 @@ public class UIController : MonoBehaviour
 
     private void OnOneDialogOpened(IUserInterface dialog)
     {
-
+        onDialogOpen?.Invoke(dialog);
     }
 
     private void OnOneDialogClosed(IUserInterface dialog)
@@ -70,31 +72,58 @@ public class UIController : MonoBehaviour
             {
                 ShowDialog(dialogs.Peek(), UIShowType.SHOW_PREVIOUS);
             }
+            onDialogClose?.Invoke(dialog);
         }
     }
 
     #region Show Dialog
 
-    #region Sync
-
-    public void ShowDialog(int type)
-	{
-		ShowDialog((UIType)type, UIShowType.DONT_SHOW_IF_OTHERS_SHOWING); 
-	}
-
+    #region Prepare Dialog in Sync mode
+    
     public void ShowDialog(UIType type, UIShowType option = UIShowType.REPLACE_CURRENT)
     {
         IUserInterface dialog = GetDialog(type);
         ShowDialog(dialog, option);
     }
-
    
     public IUserInterface GetDialog(UIType type)
     {
         return uiFactory.GetUI(type); ;
     }
-    public void ShowDialog(IUserInterface ui, UIShowType option = UIShowType.OVER_CURRENT) 
-	{
+
+    #endregion
+
+    #region Prepare Dialog in Async mode
+
+
+    public void ShowDialogAsync(UIType type, UIShowType option = UIShowType.REPLACE_CURRENT)
+    {
+        StartCoroutine(LoadDialogAsync(type,option));
+    }
+
+    IEnumerator LoadDialogAsync(UIType type,UIShowType option)
+    {
+
+        IAsyncOperation<GameObject> asyncOperation = uiFactory.GetUIAsync(type);
+
+        if (!asyncOperation.IsValid) yield break;
+
+        while (!asyncOperation.IsDone)
+            yield return null;
+
+        if (asyncOperation.Result == null) yield break;
+
+        IUserInterface dialog = asyncOperation.Result.GetComponent<IUserInterface>();
+
+        if (dialog == null) yield break;
+        if (dialog.GetInstantiatable() == null) yield break;
+        ShowDialog(dialog,option);
+    }
+
+    #endregion
+
+    public void ShowDialog(IUserInterface ui, UIShowType option = UIShowType.OVER_CURRENT)
+    {
         if (ui == null) return;
 
         if (currentWindow != null)
@@ -122,41 +151,7 @@ public class UIController : MonoBehaviour
 
         currentWindow.Show();
 
-        //if (onDialogsOpened != null)
-        //    onDialogsOpened();
-
-
     }
-
-    #endregion
-
-    #region Async
-
-   
-     public void ShowDialogAsync(UIType type, UIShowType option = UIShowType.REPLACE_CURRENT)
-    {
-        StartCoroutine(LoadDialogAsync(type,option));
-    }
-    IEnumerator LoadDialogAsync(UIType type,UIShowType option)
-    {
-
-        IAsyncOperation<GameObject> asyncOperation = uiFactory.GetUIAsync(type);
-
-        if (!asyncOperation.IsValid) yield break;
-
-        while (!asyncOperation.IsDone)
-            yield return null;
-
-        if (asyncOperation.Result == null) yield break;
-
-        IUserInterface dialog = asyncOperation.Result.GetComponent<IUserInterface>();
-
-        if (dialog == null) yield break;
-        if (dialog.GetInstantiatable() == null) yield break;
-        ShowDialog(dialog,option);
-    }
-
-    #endregion
 
     #endregion
 

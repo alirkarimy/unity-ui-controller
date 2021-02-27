@@ -92,11 +92,14 @@ public class UserInterface :MonoBehaviour, IUserInterface
         isShowing = false;
         if (animator != null && animator.HasTrigger("hide"))
         {
+            Debug.Log(0);
             animator.SetTrigger("hide");
             Timer.Schedule(this, animator.GetCurrentAnimationLenght(), @Destroy);
         }
         else
         {
+            Debug.Log(1);
+
             @Destroy();
         }
 
@@ -118,6 +121,8 @@ public class UserInterface :MonoBehaviour, IUserInterface
 
     public void @Destroy()
     {
+        Debug.Log(2);
+
         AssetManager.ReleaseInstance(GetInstantiatable());
     }
 

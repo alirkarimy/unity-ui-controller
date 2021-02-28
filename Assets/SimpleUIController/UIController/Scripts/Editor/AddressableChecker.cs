@@ -24,13 +24,13 @@ public class AddressableChecker : EditorWindow
 
     public static void CheckItNow()
     {
-        ListPackages.List();
+        ListUnityPackages.List();
         return;
     }
 
     static AddressableChecker()
 	{
-        ListPackages.OnPackagesRetrived = OnPackageListReceived;
+        ListUnityPackages.OnPackagesRetrived = OnPackageListReceived;
 	}
 
     private static void OnPackageListReceived(PackageCollection packages)

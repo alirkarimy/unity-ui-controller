@@ -4,7 +4,7 @@ using UnityEditor.PackageManager.Requests;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
-static class ListPackages
+static class ListUnityPackages
 {
     static ListRequest Request;
     public static Action<PackageCollection> OnPackagesRetrived;

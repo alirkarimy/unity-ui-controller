@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CustomEditor(typeof(AssetManager))]
 [CanEditMultipleObjects]
-public class DialogeRefrencesInspector : BaseInspector
+public class UIRefrencesInspector : BaseInspector
 {
     public SerializedProperty baseDialogs;
     private void OnEnable()

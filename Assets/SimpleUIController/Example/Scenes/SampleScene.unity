@@ -822,6 +822,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1008781655, guid: 76be35546496391499d10d509a32d5d7, type: 3}
+      propertyPath: baseDialogs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1008781655, guid: 76be35546496391499d10d509a32d5d7, type: 3}
       propertyPath: baseDialogs.Array.data[0]
       value: 
       objectReference: {fileID: 114008765236984140, guid: 35d6a266ef1175b4a9b9e71e3b4c179a,
@@ -830,6 +834,16 @@ PrefabInstance:
       propertyPath: baseDialogs.Array.data[1]
       value: 
       objectReference: {fileID: 114158312344552058, guid: 375e79e0ffccdad4faa510c3c3e982a7,
+        type: 3}
+    - target: {fileID: 1008781655, guid: 76be35546496391499d10d509a32d5d7, type: 3}
+      propertyPath: baseDialogs.Array.data[2]
+      value: 
+      objectReference: {fileID: 1503688384758518711, guid: 806d13b5e9daca24988ecd6aa1a41ab1,
+        type: 3}
+    - target: {fileID: 1008781655, guid: 76be35546496391499d10d509a32d5d7, type: 3}
+      propertyPath: baseDialogs.Array.data[3]
+      value: 
+      objectReference: {fileID: 1503688384758518711, guid: a018f19dbc66b8e45aba327757a2fedb,
         type: 3}
     - target: {fileID: 9191188912110753650, guid: 76be35546496391499d10d509a32d5d7,
         type: 3}

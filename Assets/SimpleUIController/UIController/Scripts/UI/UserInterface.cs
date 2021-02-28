@@ -59,6 +59,7 @@ public class UserInterface :MonoBehaviour, IUserInterface
     public virtual void Show()
     {
         GetInstantiatable().SetActive(true);
+        GetCanvas().sortingOrder = UIController.instance.CurrentWindowSortOrder;
         isShowing = true;
 
         Timer.Schedule(this, Time.deltaTime * 2, 
@@ -118,8 +119,6 @@ public class UserInterface :MonoBehaviour, IUserInterface
 
     public void @Destroy()
     {
-        Debug.Log(2);
-
         AssetManager.ReleaseInstance(GetInstantiatable());
     }
 

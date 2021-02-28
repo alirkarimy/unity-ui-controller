@@ -20,22 +20,16 @@ public class UIWithResult : UserInterface
     public virtual void OnYesClick()
     {
         if (onResult != null) onResult.Invoke(1);
-        
-        Close();
     }
 
     public virtual void OnNoClick()
     {
         if (onResult != null) onResult.Invoke(0);
-
-        Close();
     }
 
 
     public virtual void OnCancelClick()
     {
         if (onResult != null) onResult.Invoke(-1);
-
-        Close();
     }
 }

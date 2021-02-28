@@ -7,27 +7,27 @@ using UnityEngine.UI;
 
 public static class UIExtension 
 {
-    public static void ShowYesNoDialog(this UIController uIController, string title, string content, UnityAction<int> onResult)
+    public static void ShowYesNoDialog(this UIController uIController, string title, string content, UnityAction<int> onResult,UIShowType showType)
     {
-        var dialog = (UIWithResult)uIController.GetDialog(UIType.UIWithResult);
+        var dialog = (UIWithResult)uIController.GetDialog(UIType.UIWithYesNoResult);
 
         if (!dialog) return;
 
         if (dialog.title != null) dialog.title.SetText(title);
         if (dialog.message != null) dialog.message.SetText(content);
         if (onResult != null) dialog.onResult += onResult;
-        uIController.ShowDialog(dialog, UIShowType.REPLACE_CURRENT);
+        uIController.ShowDialog(dialog, showType);
     }
    
 
-    public static void ShowOkDialog(this UIController uIController, string title, string content, UnityAction<int> onResult)
+    public static void ShowOkDialog(this UIController uIController, string title, string content, UnityAction<int> onResult, UIShowType showType)
     {
-        var dialog = (UIWithResult)uIController.GetDialog(UIType.UIWithResult);
+        var dialog = (UIWithResult)uIController.GetDialog(UIType.UIWithOkResult);
 
         if (dialog.title != null) dialog.title.SetText(title);
         if (dialog.message != null) dialog.message.SetText(content);
         if (onResult != null) dialog.onResult += onResult;
-        uIController.ShowDialog(dialog, UIShowType.REPLACE_CURRENT);
+        uIController.ShowDialog(dialog, showType);
     }
 
 

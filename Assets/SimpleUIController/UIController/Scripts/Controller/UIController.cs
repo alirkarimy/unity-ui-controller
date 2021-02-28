@@ -26,11 +26,11 @@ public class UIController : MonoBehaviour
 
     public IUIFactory uiFactory;
 
-    [HideInInspector]
     public IUserInterface currentWindow;
 
     public Stack<IUserInterface> dialogs = new Stack<IUserInterface>();
 
+    public int CurrentWindowSortOrder { get { return dialogs.Count; } }
     #endregion
 
     #region callbacks
@@ -67,9 +67,6 @@ public class UIController : MonoBehaviour
             dialogs.Pop();
 
             onDialogClose?.Invoke(dialog);
-
-            if (OnScreenClear != null && dialogs.Count == 0)
-                OnScreenClear();
 
             if (dialogs.Count > 0)
             {
@@ -153,7 +150,7 @@ public class UIController : MonoBehaviour
             dialogs.Push(currentWindow);
 
         currentWindow.InitializeCallbacks(OnOneDialogOpened, OnOneDialogClosed);
-
+        
         currentWindow.Show();
 
     }

@@ -3,5 +3,6 @@ public enum UIType
 {
     Inventury,
     Settings,
-    UIWithResult
+    UIWithYesNoResult,
+    UIWithOkResult
 }

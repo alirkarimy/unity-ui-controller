@@ -3,31 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class Settings : UserInterface
+namespace UIController.Example
 {
-   public void OnSaveClick()
+    public class Settings : UserInterface
     {
-        UIController.instance.ShowYesNoDialog("Change Settings", "Are you sure to save changes ?", OnPopupResult,UIShowType.STACK);
-    }
-
-    private void OnPopupResult(int arg0)
-    {
-        string message = "You Canceled";
-        switch (arg0)
+        public void OnSaveClick()
         {
-            case 0:
-                message = "Changes Discarded";
-                break;
-            case 1:
-                message = "Changes Saved";
-                break;
+            UIController.instance.ShowYesNoDialog("Change Settings", "Are you sure to save changes ?", OnPopupResult, UIShowType.STACK);
         }
-                UIController.instance.ShowOkDialog("Change Settings", message, OnOKPopupResult,UIShowType.REPLACE_CURRENT);
-    }
 
-    private void OnOKPopupResult(int a)
-    {
-        UIController.instance.CloseCurrentDialog();
+        private void OnPopupResult(int arg0)
+        {
+            string message = "You Canceled";
+            switch (arg0)
+            {
+                case 0:
+                    message = "Changes Discarded";
+                    break;
+                case 1:
+                    message = "Changes Saved";
+                    break;
+            }
+            UIController.instance.ShowOkDialog("Change Settings", message, OnOKPopupResult, UIShowType.REPLACE_CURRENT);
+        }
+
+        private void OnOKPopupResult(int a)
+        {
+            UIController.instance.CloseCurrentDialog();
+        }
     }
 }

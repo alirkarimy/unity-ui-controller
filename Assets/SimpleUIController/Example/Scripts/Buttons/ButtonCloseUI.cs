@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
-public class ButtonCloseUI : MyButton
+namespace UIController.Example
 {
-    public override void OnButtonClick()
+    public class ButtonCloseUI : MyButton
     {
-        base.OnButtonClick();
-        UIController.instance.CloseCurrentDialog();
+        public override void OnButtonClick()
+        {
+            base.OnButtonClick();
+            UIController.instance.CloseCurrentDialog();
+
+        }
 
     }
-
 }

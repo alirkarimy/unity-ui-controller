@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
-public class ButtonShowUI : MyButton
+namespace UIController.Example
 {
-    public UIType UIToShow;
-    public UIShowType UIShowType;
-
-    public override void OnButtonClick()
+    public class ButtonShowUI : MyButton
     {
-        base.OnButtonClick();
+        public UIType UIToShow;
+        public UIShowType UIShowType;
+
+        public override void OnButtonClick()
+        {
+            base.OnButtonClick();
 
 #if async
         UIController.instance.ShowDialogAsync(UIToShow, UIShowType);
 #else
-        UIController.instance.ShowDialog(UIToShow, UIShowType);
+            UIController.instance.ShowDialog(UIToShow, UIShowType);
 #endif
-        
+
+        }
     }
 }

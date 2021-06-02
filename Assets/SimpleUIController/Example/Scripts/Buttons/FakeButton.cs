@@ -2,26 +2,28 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
-public class FakeButton : MyButton
+namespace UIController.Example
 {
-    [SerializeField] private TextMeshProUGUI fakeText;
-    private bool isTextOn { get { return fakeText.gameObject.activeInHierarchy; } }
-    public override void OnButtonClick()
+    public class FakeButton : MyButton
     {
-        if (isTextOn) return;
+        [SerializeField] private TextMeshProUGUI fakeText;
+        private bool isTextOn { get { return fakeText.gameObject.activeInHierarchy; } }
+        public override void OnButtonClick()
+        {
+            if (isTextOn) return;
 
-        base.OnButtonClick();
-        ShowText();
-        Timer.Schedule(this, 1, HideText);
-    }
+            base.OnButtonClick();
+            ShowText();
+            Timer.Schedule(this, 1, HideText);
+        }
 
-    private void ShowText()
-    {
-        fakeText.gameObject.SetActive(true);
-    }
-    private void HideText()
-    {
-        fakeText.gameObject.SetActive(false);
+        private void ShowText()
+        {
+            fakeText.gameObject.SetActive(true);
+        }
+        private void HideText()
+        {
+            fakeText.gameObject.SetActive(false);
+        }
     }
 }

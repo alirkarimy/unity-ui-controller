@@ -2,22 +2,24 @@
 using System.Collections;
 using UnityEngine.UI;
 using TMPro;
-
-public class MyButton : MonoBehaviour
+namespace UIController.Example
 {
-
-    protected Button button;
-
-    protected virtual void Start()
+    public class MyButton : MonoBehaviour
     {
-        button = GetComponent<Button>() ?? gameObject.AddComponent<Button>();
 
-        button.onClick.AddListener(OnButtonClick);
-        
+        protected Button button;
+
+        protected virtual void Start()
+        {
+            button = GetComponent<Button>() ?? gameObject.AddComponent<Button>();
+
+            button.onClick.AddListener(OnButtonClick);
+
+        }
+
+        public virtual void OnButtonClick()
+        {
+            //TODO : Play Sound effect
+        }
     }
-
-    public virtual void OnButtonClick()
-    {
-        //TODO : Play Sound effect
-    }    	
 }

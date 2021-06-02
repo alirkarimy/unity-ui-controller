@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class TestUIController : MonoBehaviour
+namespace UIController.Example
 {
-   
+    public class TestUIController : MonoBehaviour
+    {
+
+    }
 }

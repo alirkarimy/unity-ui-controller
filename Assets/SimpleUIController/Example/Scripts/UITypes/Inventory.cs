@@ -2,8 +2,10 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
-
-public class Inventory : UserInterface
+namespace UIController.Example
 {
+    public class Inventory : UserInterface
+    {
 
+    }
 }

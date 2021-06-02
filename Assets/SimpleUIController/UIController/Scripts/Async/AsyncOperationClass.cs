@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+namespace UIController
+{
 #if async
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -23,3 +25,4 @@ public class AsyncOperationClass<T> : IAsyncOperation<T>
 
 }
 #endif
+}

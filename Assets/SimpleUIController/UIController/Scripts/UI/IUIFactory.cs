@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IUIFactory
+namespace UIController
 {
-    IUserInterface GetUI(UIType type);
+    public interface IUIFactory
+    {
+        IUserInterface GetUI(UIType type);
 
-    IAsyncOperation<GameObject> GetUIAsync(UIType type);
+        IAsyncOperation<GameObject> GetUIAsync(UIType type);
+
+    }
 
 }

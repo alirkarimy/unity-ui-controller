@@ -1,8 +1,10 @@
-﻿
-public enum UIType
+﻿namespace UIController
 {
-    Inventury,
-    Settings,
-    UIWithYesNoResult,
-    UIWithOkResult
+    public enum UIType
+    {
+        Inventury,
+        Settings,
+        UIWithYesNoResult,
+        UIWithOkResult
+    }
 }

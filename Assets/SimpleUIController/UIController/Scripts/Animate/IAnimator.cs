@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public interface IAnimator 
+namespace UIController
 {
-    bool HasTrigger(string stateName);
-    void SetTrigger(string parameter);
-    float GetCurrentAnimationLenght();
+    public interface IAnimator
+    {
+        bool HasTrigger(string stateName);
+        void SetTrigger(string parameter);
+        float GetCurrentAnimationLenght();
+    }
 }

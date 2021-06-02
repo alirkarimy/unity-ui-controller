@@ -1,58 +1,60 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class AnimatorClass : MonoBehaviour,IAnimator
+namespace UIController
 {
-    Animator animator;
-
-    // Start is called before the first frame update
-    void Start()
+    public class AnimatorClass : MonoBehaviour, IAnimator
     {
-        if (!animator) animator = GetComponent<Animator>();
-    }
+        Animator animator;
 
-
-    #region IAnimator methods
-    public float GetCurrentAnimationLenght()
-    {
-        if (!animator)
+        // Start is called before the first frame update
+        void Start()
         {
-            Debug.LogError("Animator is not attached");
-            return 0;
+            if (!animator) animator = GetComponent<Animator>();
         }
-        try
+
+
+        #region IAnimator methods
+        public float GetCurrentAnimationLenght()
         {
-            return animator.GetCurrentAnimatorStateInfo(0).length;
+            if (!animator)
+            {
+                Debug.LogError("Animator is not attached");
+                return 0;
+            }
+            try
+            {
+                return animator.GetCurrentAnimatorStateInfo(0).length;
+            }
+            catch { return 0; }
+
         }
-        catch { return 0; }
 
-    }
-
-    public void SetTrigger(string parameter)
-    {
-        if (!animator)
+        public void SetTrigger(string parameter)
         {
-            Debug.LogError("Animator is not attached");
-            return ;
+            if (!animator)
+            {
+                Debug.LogError("Animator is not attached");
+                return;
+            }
+            animator.SetTrigger(parameter);
         }
-        animator.SetTrigger(parameter);
-    }
 
-    public bool HasTrigger(string triggerName)
-    {
-        if (!animator)
+        public bool HasTrigger(string triggerName)
         {
-            Debug.LogError("Animator is not attached");
+            if (!animator)
+            {
+                Debug.LogError("Animator is not attached");
+                return false;
+            }
+            AnimatorControllerParameter[] parameters = animator.parameters;
+
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                if (parameters[i].type == AnimatorControllerParameterType.Trigger && parameters[i].name.Equals(triggerName)) return true;
+            }
             return false;
         }
-        AnimatorControllerParameter[] parameters = animator.parameters;
-        
-        for (int i = 0; i < parameters.Length; i++)
-        {
-            if (parameters[i].type == AnimatorControllerParameterType.Trigger && parameters[i].name.Equals(triggerName)) return true;
-        }
-        return false;
+        #endregion
     }
-    #endregion
 }

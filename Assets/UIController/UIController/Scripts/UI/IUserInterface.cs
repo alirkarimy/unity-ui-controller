@@ -14,6 +14,7 @@ namespace Elka.UI.Controller
         void Destroy();
 
         bool PersistentWhileSceneChanges{ get; }
+        bool hasOverlayBackground{ get; }
       
         UIType Type { set; get; }
         UIShowType ShowType { set; get; }

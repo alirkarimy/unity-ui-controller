@@ -4,6 +4,11 @@
     {
         Settings,
         OkPopup,
-        YesNoPopup
+        YesNoPopup,
+        QuitGame,
+        Splash,
+        Welldone,
+        JoinGame,
+        CreateGame
     }
 }

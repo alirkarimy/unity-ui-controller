@@ -1,6 +1,6 @@
 ﻿namespace Elka.UI.Controller
 {
-#if async
+#if !async
     using UnityEngine.ResourceManagement.AsyncOperations;
 
     public class AsyncOperationClass<T> : IAsyncOperation<T>

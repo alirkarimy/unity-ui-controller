@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-#if async
+#if !async
 using UnityEngine.AddressableAssets;
 #endif
 namespace Elka.UI.Controller
@@ -19,7 +19,7 @@ namespace Elka.UI.Controller
             else
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
+          //      DontDestroyOnLoad(gameObject);
             }
         }
         public static IUserInterface Instantiate(UIType type)
@@ -36,7 +36,7 @@ namespace Elka.UI.Controller
 
         public static GameObject InstantiateAsync(string assetName)
         {
-#if async
+#if !async
             return Addressables.InstantiateAsync(assetName).WaitForCompletion();
 #else
             Debug.LogError("Async mode is not activated, Please first Add Addressable Package or Develope your own package and then try again");
@@ -47,7 +47,7 @@ namespace Elka.UI.Controller
         public static bool ReleaseInstance(GameObject t)
         {
             if (t)
-#if async
+#if !async
             return Addressables.ReleaseInstance(t);
 #else
             { Destroy(t); return true; }

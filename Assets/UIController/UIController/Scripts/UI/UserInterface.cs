@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+
 namespace Elka.UI.Controller
 {
     public class UserInterface : MonoBehaviour, IUserInterface
@@ -15,12 +17,14 @@ namespace Elka.UI.Controller
 
         #region Variables
         private IAnimator animator;
-
+       
         [SerializeField] private bool _isPersistent = false;
         public bool enableAd = true;
         public bool enableEscape = true;
         public bool animationIn = true;
         public bool animationOut = true;
+     
+        public bool _overlayBackground = true;
 
         protected bool isShowing;
         #endregion
@@ -38,18 +42,21 @@ namespace Elka.UI.Controller
             animationOut = animationOut && animator != null;
 
         }
-
+       
         protected virtual void Start()
         {
-            if (GetComponent<Canvas>().renderMode != RenderMode.ScreenSpaceOverlay) GetComponent<Canvas>().worldCamera = Camera.main;
+            if (GetComponent<Canvas>().renderMode != RenderMode.ScreenSpaceOverlay)
+                GetComponent<Canvas>().worldCamera = Camera.main;
             if (PersistentWhileSceneChanges)
                 DontDestroyOnLoad(gameObject);
+
         }
+     
+     
 
-        private void Update()
+        private void OnEscape()
         {
-
-            if (enableEscape && Input.GetKeyDown(KeyCode.Escape))
+            if (enableEscape)
             {
                 Close();
             }
@@ -109,8 +116,22 @@ namespace Elka.UI.Controller
 
         public virtual void Hide()
         {
-            GetInstantiatable().SetActive(false);
             isShowing = false;
+
+            if (animationOut && animator.HasTrigger("hide"))
+            {
+                animator.SetTrigger("hide");
+                Timer.Schedule(this, animator.GetCurrentAnimationLenght(),            
+                       () => { GetInstantiatable().SetActive(false); }
+                  );
+            }
+            else
+            {
+                Timer.Schedule(this, 0,
+                       () => { GetInstantiatable().SetActive(false); }
+                  );
+
+            }
         }
 
         public virtual void Close()
@@ -176,6 +197,8 @@ namespace Elka.UI.Controller
         }
 
         public bool PersistentWhileSceneChanges => _isPersistent;
+
+        public bool hasOverlayBackground => _overlayBackground;
 
         public Canvas GetCanvas()
         {

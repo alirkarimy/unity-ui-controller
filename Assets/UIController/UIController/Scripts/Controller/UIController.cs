@@ -22,8 +22,23 @@ namespace Elka.UI.Controller
 
         #region Refrences
 
-        private static IUIFactory uiFactory;
-        private static UIController instance;
+        private static IUIFactory _uiFactory;
+        private static IUIFactory uiFactory
+        {
+            get
+            {
+                if (_uiFactory!=null)
+                    return _uiFactory;
+                else
+                {   
+                    GameObject uiController = new GameObject("UIController");
+                    _uiFactory = uiController.AddComponent<UIFactory>();
+                    uiController.AddComponent<AssetManager>();
+                    uiController.AddComponent<UIController>();
+                    return _uiFactory;
+                }
+            }
+        }
 
         private static Stack<IUserInterface> dialogs = new Stack<IUserInterface>();
 
@@ -41,18 +56,10 @@ namespace Elka.UI.Controller
 
         #endregion
 
-        public void Awake()
+        private void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-                uiFactory = GetComponent<IUIFactory>(); 
-            }
-            else
+            if (_uiFactory != GetComponent<IUIFactory>())
                 Destroy(gameObject);
-
-
-
         }
         private void OnEnable()
         {
@@ -63,7 +70,7 @@ namespace Elka.UI.Controller
         }
         private void OnDisable()
         {
-            if (instance != this) return; // preventing from unsubscribing subscribed events by the instance
+      //      if (Instance != this) return; // preventing from unsubscribing subscribed events by the instance
 
             onDialogOpen -= OnOneDialogOpened;
             onDialogStartClosing -= OnOneDialogClosed;
@@ -71,10 +78,12 @@ namespace Elka.UI.Controller
             onAnimationOut -= OnOneDialogHide;
         }
 
-        private void Start()
+        private void OnDestroy()
         {
-            uiFactory = GetComponent<IUIFactory>();
-        }
+            _uiFactory = null;
+            dialogs.Clear();
+            currentWindow = null;
+    }
 
         private static void OnOneDialogOpened(IUserInterface dialog)
         {
@@ -93,8 +102,6 @@ namespace Elka.UI.Controller
             {
                 dialogs.Pop();
             }
-
-
 
         }
 

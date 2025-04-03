@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 public static class UIHelper
 {
-    public static void ShowYesNoDialog<T>(string title, string content, UnityAction<T> onResult, UIShowType showType)
+    public static void ShowYesNoDialog(string title, string content, UnityAction<YesNoPopup.Result> onResult, UIShowType showType)
     {
-        UIWithResult<T> dialog = (UIWithResult<T>)UIController.GetDialogAsync(UIType.YesNoPopup);
+        YesNoPopup dialog = (YesNoPopup)UIController.GetDialogAsync(UIType.YesNoPopup);
 
         if (!dialog) return;
 
@@ -17,7 +17,7 @@ public static class UIHelper
     }
 
 
-    public static void ShowOkDialog<T>(string title, string content, UnityAction<int> onResult, UIShowType showType)
+    public static void ShowOkDialog(string title, string content, UnityAction<OkPopup.Result> onResult, UIShowType showType)
     {
         OkPopup dialog = (OkPopup)UIController.GetDialogAsync(UIType.OkPopup);
         if (!dialog) return;

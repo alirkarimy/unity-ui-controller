@@ -1,20 +1,26 @@
 ﻿namespace Elka.UI.Controller.Example
 {
-    public class YesNoPopup : UIWithResult<int>
+    public class YesNoPopup : UIWithResult<YesNoPopup.Result>
     {
-        public override void SetResultData(int data)
+        public enum Result
+        {
+            Yes,
+            No,
+            Close
+        }
+        public override void SetResultData(Result data)
         {
             this.resultData = data;
         }
 
         public void YesButtonClicked()
         {
-            SetResultData(1);
+            SetResultData(Result.Yes);
             Close();
         }
         public void NoButtonClicked()
         {
-            SetResultData(-1);
+            SetResultData(Result.No);
             Close();
         }
 

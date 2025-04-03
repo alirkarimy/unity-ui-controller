@@ -21,18 +21,6 @@ MonoBehaviour:
     m_Address: Settings
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 35d6a266ef1175b4a9b9e71e3b4c179a
-    m_Address: Inventury
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: a018f19dbc66b8e45aba327757a2fedb
-    m_Address: UIWithOKResult
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 806d13b5e9daca24988ecd6aa1a41ab1
-    m_Address: UIWithYesNoResult
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e34e275b8fe849f41844524d4ae9b3ff, type: 2}
   m_SchemaSet:

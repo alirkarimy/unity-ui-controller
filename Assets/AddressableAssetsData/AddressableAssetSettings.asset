@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
   m_DefaultGroup: fd659e5b852eef8408b9f60ac4f12ff4
+  m_CachedHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -21,8 +24,10 @@ MonoBehaviour:
   m_IgnoreUnsupportedFilesInBuild: 0
   m_UniqueBundleIds: 0
   m_NonRecursiveBuilding: 0
+  m_CCDEnabled: 0
   m_maxConcurrentWebRequests: 500
   m_ContiguousBundles: 0
+  m_StripUnityVersionFromBundleBuild: 0
   m_DisableVisibleSubAssetRepresentations: 0
   m_ShaderBundleNaming: 0
   m_ShaderBundleCustomNaming: 
@@ -33,10 +38,17 @@ MonoBehaviour:
   m_RemoteCatalogLoadPath:
     m_Id: 
   m_ContentStateBuildPath: 
+  m_BuildAddressablesWithPlayerBuild: 2
   m_overridePlayerVersion: 
   m_GroupAssets:
   - {fileID: 11400000, guid: a769fea05efde184084634fa54f8c2de, type: 2}
   - {fileID: 11400000, guid: bf64f4c282e6721469e1feb1c98313e6, type: 2}
+  - {fileID: 11400000, guid: 26338610e749c57489e5cc704aabef15, type: 2}
+  - {fileID: 11400000, guid: e6e7023089f081942bb7ec42ce3838d6, type: 2}
+  - {fileID: 11400000, guid: 59ff4b780812c544287e19b6c6856d28, type: 2}
+  - {fileID: 11400000, guid: 0e899a634b7375449a697256e7fc7722, type: 2}
+  - {fileID: 11400000, guid: 5943a20bdc439ce4d8715c85679e22e8, type: 2}
+  - {fileID: 11400000, guid: 86a198b4090ad0d4684912358b614bda, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -78,6 +90,9 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - Locale-en
+    - Locale-es
+    - Locale
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 2ce73ae736e657b43ba5debddfb55385, type: 2}

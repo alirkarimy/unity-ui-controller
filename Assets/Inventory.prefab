@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 4811402194678353907}
   - component: {fileID: 9096364293047049579}
   - component: {fileID: 3202259537531800959}
-  - component: {fileID: 114158312344552058}
   - component: {fileID: 95039436421130264}
   - component: {fileID: 114081093716642116}
+  - component: {fileID: 4819701908266053016}
   m_Layer: 5
-  m_Name: Settings
+  m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,24 +105,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114158312344552058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 371205236533439333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf66c243dcd12c4a8e00aa529de3af4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isPersistent: 0
-  enableAd: 1
-  enableEscape: 1
-  animationIn: 1
-  animationOut: 1
-  _overlayBackground: 1
 --- !u!95 &95039436421130264
 Animator:
   serializedVersion: 5
@@ -156,6 +138,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806a58644474357438f1250308572b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4819701908266053016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371205236533439333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3fcb720175793741a0161b47dc835ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isPersistent: 0
+  enableAd: 1
+  enableEscape: 1
+  animationIn: 1
+  animationOut: 1
+  _overlayBackground: 1
 --- !u!1 &515442624188682003
 GameObject:
   m_ObjectHideFlags: 0
@@ -3831,7 +3831,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 114158312344552058}
+      objectReference: {fileID: 0}
     - target: {fileID: 784154784668019482, guid: 8bc9741ca5795674590404071a383dca,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

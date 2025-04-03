@@ -1,15 +1,20 @@
 ﻿namespace Elka.UI.Controller.Example
 {
-    public class OkPopup : UIWithResult<int>
+    public class OkPopup : UIWithResult<OkPopup.Result>
     {
-        public override void SetResultData(int data)
+        public enum Result
+        {
+            Ok = 1,
+            Close = 0
+        }
+        public override void SetResultData(OkPopup.Result data)
         {
             this.resultData = data;
         }
 
         public void OkButtonClicked()
         {
-            SetResultData(1);
+            SetResultData(this.resultData);
             Close();
         }
 

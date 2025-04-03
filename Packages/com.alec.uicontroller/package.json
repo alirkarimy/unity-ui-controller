@@ -1,0 +1,22 @@
+{
+  "name": "com.alec.uicontroller",
+  "version": "1.0.0",
+  "displayName": "UI Controller System",
+  "description": "A system for managing UI in Unity projects",
+  "unity": "6000.0",
+  "keywords": [
+    "ui",
+    "controller",
+    "system"
+  ],
+  "author": {
+    "name": "Alec Karimi",
+    "email": "ali.r.karimy@gmail.com",
+    "url": "https://yourwebsite.com"
+  },
+  "dependencies": {
+    "com.unity.ugui": "2.0.0",
+    "com.unity.addressables": "2.0.0"  
+
+  }
+}

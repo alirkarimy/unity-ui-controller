@@ -9,10 +9,10 @@
             UIController.ShowDialog(yesNo, UIShowType.OVER_CURRENT);
         }
 
-        public void ShowOkPoup(int result)
+        public void ShowOkPoup(YesNoPopup.Result result)
         {
             OkPopup ok = UIController.GetDialogAsync(UIType.OkPopup) as OkPopup;
-            string resultText = result == 1 ? "Yes" : "No";
+            string resultText = result == YesNoPopup.Result.Yes ? "Yes" : "No";
             ok.FullFill("Yes No Result", $"You clicked on {resultText}", null);
             UIController.ShowDialog(ok, UIShowType.OVER_CURRENT);
         }

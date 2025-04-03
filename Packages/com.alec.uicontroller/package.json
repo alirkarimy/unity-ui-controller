@@ -16,7 +16,14 @@
   },
   "dependencies": {
     "com.unity.ugui": "2.0.0",
-    "com.unity.addressables": "2.0.0"  
+    "com.unity.addressables": "2.0.0"
 
-  }
+  },
+  "samples": [
+    {
+      "displayName": "UI Demo",
+      "description": "Example scene",
+      "path": "Samples~/Demo"
+    }
+  ]
 }

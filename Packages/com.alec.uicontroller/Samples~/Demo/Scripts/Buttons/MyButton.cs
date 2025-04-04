@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 
 namespace Elka.UI.Controller.Example
 {
@@ -12,12 +13,21 @@ namespace Elka.UI.Controller.Example
 
         protected virtual void Start()
         {
-            button = GetComponent<Button>() ?? gameObject.AddComponent<Button>();
+            if (button == null)
+                button = GetComponent<Button>() ?? gameObject.AddComponent<Button>();
 
-            button.onClick.AddListener(OnButtonClick);
+            AddListener(OnButtonClick);
 
         }
 
+        public void AddListener(UnityAction onClick)
+        {
+            if (button == null)
+                button = GetComponent<Button>() ?? gameObject.AddComponent<Button>();
+
+            button.onClick.AddListener(onClick);
+
+        }
         public virtual void OnButtonClick()
         {
             //TODO : Play Sound effect
@@ -25,7 +35,7 @@ namespace Elka.UI.Controller.Example
 
         public virtual void SetText(string name)
         {
-            if(!string.IsNullOrEmpty(name)) _text?.SetText(name);
+            if (!string.IsNullOrEmpty(name)) _text?.SetText(name);
         }
     }
 }

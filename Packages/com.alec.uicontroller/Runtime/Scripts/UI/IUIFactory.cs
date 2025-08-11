@@ -2,9 +2,9 @@
 {
     public interface IUIFactory
     {
-        IUserInterface GetUI(UIType type);
+        IUserInterface GetUI(string pageName);
 
-        IUserInterface GetUIAsync(UIType type);
+        IUserInterface GetUIAsync(string pageName);
 
     }
 

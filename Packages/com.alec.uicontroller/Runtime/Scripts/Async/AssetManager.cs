@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 #if !async
 using UnityEngine.AddressableAssets;
 #endif
@@ -22,9 +24,9 @@ namespace Elka.UI.Controller
           //      DontDestroyOnLoad(gameObject);
             }
         }
-        public static IUserInterface Instantiate(UIType type)
+        public static IUserInterface Instantiate(string pageName)
         {
-            IUserInterface dialog = Instance.baseDialogs[(int)type];
+            IUserInterface dialog = Instance.baseDialogs.FirstOrDefault(dialog=>dialog.PageName.Equals(pageName, StringComparison.OrdinalIgnoreCase));
 
             if (dialog == null) return null;
             if (dialog.GetInstantiatable() == null) return null;

@@ -1,4 +1,4 @@
-﻿namespace Elka.UI.Controller
+﻿namespace Elka.UI.Controller.Example
 {
     public enum UIType
     {

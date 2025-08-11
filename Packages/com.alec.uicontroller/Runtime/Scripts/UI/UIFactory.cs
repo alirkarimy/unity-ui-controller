@@ -12,10 +12,10 @@ namespace Elka.UI.Controller
         /// Creating new instance of prefab.
         /// </summary>
         /// <returns>New instance of prefab.</returns>
-        public IUserInterface GetUI(UIType type)
+        public IUserInterface GetUI(string pageName)
         {
-            IUserInterface ui = AssetManager.Instantiate(type);
-            ui.Type = type;
+            IUserInterface ui = AssetManager.Instantiate(pageName);
+            ui.PageName = pageName;
             return ui;
         }
 
@@ -23,10 +23,10 @@ namespace Elka.UI.Controller
         /// Creating new async instance of prefab.
         /// </summary>
         /// <returns>New instance of prefab.</returns>
-        public IUserInterface GetUIAsync(UIType type)
+        public IUserInterface GetUIAsync(string pageName)
         {
-            IUserInterface ui = AssetManager.InstantiateAsync(type.ToString()).GetComponent<IUserInterface>();
-            ui.Type = type;
+            IUserInterface ui = AssetManager.InstantiateAsync(pageName).GetComponent<IUserInterface>();
+            ui.PageName = pageName;
             return ui;
         }
 

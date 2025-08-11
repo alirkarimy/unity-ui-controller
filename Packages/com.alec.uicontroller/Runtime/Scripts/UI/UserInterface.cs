@@ -30,7 +30,7 @@ namespace Elka.UI.Controller
         #endregion
 
         #region Inspector Area
-        private UIType mType;
+        private string mPageName;
         private UIShowType mShowType;
 
         #endregion
@@ -172,15 +172,15 @@ namespace Elka.UI.Controller
             
         }
 
-        public UIType Type
+        public string PageName
         {
             get
             {
-                return mType;
+                return mPageName;
             }
             set
             {
-                mType = value;
+                mPageName = value;
             }
         }
 

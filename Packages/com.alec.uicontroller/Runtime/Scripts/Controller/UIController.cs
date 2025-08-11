@@ -27,10 +27,10 @@ namespace Elka.UI.Controller
         {
             get
             {
-                if (_uiFactory!=null)
+                if (_uiFactory != null)
                     return _uiFactory;
                 else
-                {   
+                {
                     GameObject uiController = new GameObject("UIController");
                     _uiFactory = uiController.AddComponent<UIFactory>();
                     uiController.AddComponent<AssetManager>();
@@ -70,7 +70,7 @@ namespace Elka.UI.Controller
         }
         private void OnDisable()
         {
-      //      if (Instance != this) return; // preventing from unsubscribing subscribed events by the instance
+            //      if (Instance != this) return; // preventing from unsubscribing subscribed events by the instance
 
             onDialogOpen -= OnOneDialogOpened;
             onDialogStartClosing -= OnOneDialogClosed;
@@ -83,22 +83,22 @@ namespace Elka.UI.Controller
             _uiFactory = null;
             dialogs.Clear();
             currentWindow = null;
-    }
+        }
 
         private static void OnOneDialogOpened(IUserInterface dialog)
         {
-            Debug.Log($"open {dialog?.Type}");
+            Debug.Log($"open {dialog?.PageName}");
         }
 
         private static void OnOneDialogClosed(IUserInterface dialog)
         {
-            Debug.Log($"close {dialog?.Type}");
+            Debug.Log($"close {dialog?.PageName}");
 
-           
+
             if (dialogs.Count == 0)
                 return;
 
-            if (dialogs.Peek().Type == dialog.Type)
+            if (dialogs.Peek().PageName == dialog.PageName)
             {
                 dialogs.Pop();
             }
@@ -107,12 +107,12 @@ namespace Elka.UI.Controller
 
         private static void OnOneDialogShow(IUserInterface dialog)
         {
-            Debug.Log($"Show {dialog?.Type}");
+            Debug.Log($"Show {dialog?.PageName}");
         }
 
         private static void OnOneDialogHide(IUserInterface dialog)
         {
-            Debug.Log($"Hide {dialog?.Type}");
+            Debug.Log($"Hide {dialog?.PageName}");
             if (dialogs.Count > 0)
             {
                 ShowDialog(dialogs.Peek(), UIShowType.SHOW_PREVIOUS);
@@ -130,15 +130,15 @@ namespace Elka.UI.Controller
 
         #region Prepare Dialog in Sync mode
 
-        public static void ShowDialog(UIType type, UIShowType option = UIShowType.REPLACE_CURRENT)
+        public static void ShowDialog(string pageName, UIShowType option = UIShowType.REPLACE_CURRENT)
         {
-            IUserInterface dialog = GetDialog(type);
+            IUserInterface dialog = GetDialog(pageName);
             ShowDialog(dialog, option);
         }
 
-        public static IUserInterface GetDialog(UIType type)
+        public static IUserInterface GetDialog(string pageName)
         {
-            return uiFactory.GetUI(type);
+            return uiFactory.GetUI(pageName);
         }
 
         #endregion
@@ -146,14 +146,14 @@ namespace Elka.UI.Controller
         #region Prepare Dialog in Async mode
 
 
-        public static void ShowDialogAsync(UIType type, UIShowType option = UIShowType.REPLACE_CURRENT)
+        public static void ShowDialogAsync(string pageName, UIShowType option = UIShowType.REPLACE_CURRENT)
         {
-            IUserInterface dialog = GetDialogAsync(type);
+            IUserInterface dialog = GetDialogAsync(pageName);
             ShowDialog(dialog, option);
         }
-        public static IUserInterface GetDialogAsync(UIType type)
+        public static IUserInterface GetDialogAsync(string pageName)
         {
-            return uiFactory.GetUIAsync(type);
+            return uiFactory.GetUIAsync(pageName);
         }
 
         #endregion
@@ -196,11 +196,11 @@ namespace Elka.UI.Controller
                 currentWindow.Close();
         }
 
-        public static void CloseDialog(UIType type)
+        public static void CloseDialog(string pageName)
         {
 
             if (currentWindow == null) return;
-            if (currentWindow.Type == type)
+            if (currentWindow.PageName.Equals(pageName, StringComparison.OrdinalIgnoreCase))
             {
                 currentWindow.Close();
             }
@@ -215,10 +215,10 @@ namespace Elka.UI.Controller
             return currentWindow != null;
         }
 
-        public static bool IsDialogShowing(UIType type)
+        public static bool IsDialogShowing(string pageName)
         {
             if (currentWindow == null) return false;
-            return currentWindow.Type == type;
+            return currentWindow.PageName.Equals(pageName,StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion

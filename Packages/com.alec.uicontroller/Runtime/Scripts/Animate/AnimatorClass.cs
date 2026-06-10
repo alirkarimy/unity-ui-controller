@@ -58,6 +58,16 @@ namespace Elka.UI.Controller
             }
             return false;
         }
+
+        public void Rebind()
+        {
+            animator?.Rebind();
+        }
+
+        public void UpdateTime(float v)
+        {
+            animator?.Update(0);
+        }
         #endregion
     }
 }

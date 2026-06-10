@@ -23,6 +23,8 @@ namespace Elka.UI.Controller
 
         private void OnDialogOpened(IUserInterface obj)
         {
+            if (obj.hasOverlayBackground == false) return;
+
             overlay.enabled = obj.hasOverlayBackground;
 
             if (obj.EnableEscape)

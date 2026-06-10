@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace Elka.UI.Controller
 {
@@ -56,6 +57,8 @@ namespace Elka.UI.Controller
 
         #endregion
 
+        public static float TransitionDelay = 0.15f;
+
         private void Awake()
         {
             if (_uiFactory != GetComponent<IUIFactory>())
@@ -94,15 +97,17 @@ namespace Elka.UI.Controller
         {
             Debug.Log($"close {dialog?.PageName}");
 
-
-            if (dialogs.Count == 0)
-                return;
-
-            if (dialogs.Peek().PageName == dialog.PageName)
-            {
+            if (dialogs.Count > 0 && dialogs.Peek().PageName == dialog.PageName)
                 dialogs.Pop();
-            }
 
+
+            if (dialogs.Count > 0)
+            {
+                Timer.Schedule(uiFactory as MonoBehaviour, TransitionDelay, () =>
+                        {
+                            ShowDialog(dialogs.Peek(), UIShowType.SHOW_PREVIOUS);
+                        });
+            }
         }
 
         private static void OnOneDialogShow(IUserInterface dialog)
@@ -113,35 +118,20 @@ namespace Elka.UI.Controller
         private static void OnOneDialogHide(IUserInterface dialog)
         {
             Debug.Log($"Hide {dialog?.PageName}");
-            if (dialogs.Count > 0)
-            {
-                ShowDialog(dialogs.Peek(), UIShowType.SHOW_PREVIOUS);
-            }
-            else
+
+            if (currentWindow != null
+                && !currentWindow.PageName.Equals(dialog.PageName, StringComparison.OrdinalIgnoreCase))
+                return;
+
+            if (dialogs.Count == 0)
             {
                 currentWindow = null;
                 OnScreenClear?.Invoke();
             }
-
-
         }
 
         #region Show Dialog
 
-        #region Prepare Dialog in Sync mode
-
-        public static void ShowDialog(string pageName, UIShowType option = UIShowType.REPLACE_CURRENT)
-        {
-            IUserInterface dialog = GetDialog(pageName);
-            ShowDialog(dialog, option);
-        }
-
-        public static IUserInterface GetDialog(string pageName)
-        {
-            return uiFactory.GetUI(pageName);
-        }
-
-        #endregion
 
         #region Prepare Dialog in Async mode
 
@@ -160,7 +150,7 @@ namespace Elka.UI.Controller
 
         public static void ShowDialog(IUserInterface ui, UIShowType option = UIShowType.OVER_CURRENT)
         {
-            if (ui == null) return;
+            if (ui == null || ui.Equals(currentWindow)) return;
 
             if (currentWindow != null)
             {
@@ -178,10 +168,35 @@ namespace Elka.UI.Controller
                     currentWindow.Hide();
                 }
             }
-            if (option != UIShowType.SHOW_PREVIOUS)
+
+            // اگر پنل در stack وجود داشته باشد، آن را پیدا کرده و به بالای stack بیاوریم
+            if (dialogs.Contains(ui))
+            {
+                // پنل A را پیدا کنیم و به بالای stack منتقل کنیم
+                // اینجا باید پنل را از stack برداریم و دوباره به بالای stack اضافه کنیم
+                Stack<IUserInterface> tempStack = new Stack<IUserInterface>();
+                while (dialogs.Count > 0)
+                {
+                    IUserInterface dialog = dialogs.Pop();
+                    if (dialog != ui)
+                        tempStack.Push(dialog);  // نگه داشتن باقی‌مانده‌ی پنل‌ها
+                    else
+                        break;  // وقتی پنل A پیدا شد، دیگر ادامه نمی‌دهیم
+                }
+
+
+                // باقی‌مانده‌ی پنل‌ها را دوباره به stack برمی‌گردانیم
+                while (tempStack.Count > 0)
+                {
+                    dialogs.Push(tempStack.Pop());
+                }
+                // حالا پنل A را به بالای stack اضافه می‌کنیم
                 dialogs.Push(ui);
 
-
+            }
+            else if (option != UIShowType.SHOW_PREVIOUS)
+                dialogs.Push(ui);
+            // پنل A را نمایش می‌دهیم
             currentWindow = ui;
             ui.Show();
         }
@@ -218,7 +233,7 @@ namespace Elka.UI.Controller
         public static bool IsDialogShowing(string pageName)
         {
             if (currentWindow == null) return false;
-            return currentWindow.PageName.Equals(pageName,StringComparison.OrdinalIgnoreCase);
+            return currentWindow.PageName.Equals(pageName, StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion

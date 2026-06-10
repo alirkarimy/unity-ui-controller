@@ -16,7 +16,7 @@ namespace Elka.UI.Controller
         #endregion
 
         #region Variables
-        private IAnimator animator;
+        protected IAnimator animator;
        
         [SerializeField] private bool _isPersistent = false;
         public bool enableAd = true;
@@ -32,6 +32,7 @@ namespace Elka.UI.Controller
         #region Inspector Area
         private string mPageName;
         private UIShowType mShowType;
+        [SerializeField] private UICloseMode closeMode = UICloseMode.ReleaseInstance;
 
         #endregion
 
@@ -77,6 +78,8 @@ namespace Elka.UI.Controller
 
         public virtual void Show()
         {
+            ResetVisualState();
+
             GetInstantiatable().SetActive(true);
             GetCanvas().sortingOrder = UIController.CurrentWindowSortOrder;
             isShowing = true;
@@ -91,13 +94,13 @@ namespace Elka.UI.Controller
                             () =>
                             {
                                 //OnAnimation In End
-                               UIController.onAnimationIn?.Invoke(this);
+                               UIController.onAnimationIn?.SafeInvoke(this);
                             }
                             );
 
                     }
                     else
-                        UIController.onAnimationIn?.Invoke(this);
+                        UIController.onAnimationIn?.SafeInvoke(this);
 
                     if (enableAd)
                     {
@@ -108,7 +111,7 @@ namespace Elka.UI.Controller
 
                 });
 
-            UIController.onDialogOpen?.Invoke(this);
+            UIController.onDialogOpen?.SafeInvoke(this);
 
 
 
@@ -122,13 +125,19 @@ namespace Elka.UI.Controller
             {
                 animator.SetTrigger("hide");
                 Timer.Schedule(this, animator.GetCurrentAnimationLenght(),            
-                       () => { GetInstantiatable().SetActive(false); }
+                       () => {
+                           UIController.onAnimationOut?.SafeInvoke(this);
+                           GetInstantiatable().SetActive(false); 
+                       }
                   );
             }
             else
             {
                 Timer.Schedule(this, 0,
-                       () => { GetInstantiatable().SetActive(false); }
+                       () => {
+                           UIController.onAnimationOut?.SafeInvoke(this);
+                           GetInstantiatable().SetActive(false); 
+                       }
                   );
 
             }
@@ -137,7 +146,7 @@ namespace Elka.UI.Controller
         public virtual void Close()
         {
             isShowing = false;
-            UIController.onDialogStartClosing(this);
+            UIController.onDialogStartClosing?.SafeInvoke(this);
             if (animationOut && animator.HasTrigger("hide"))
             {
                 animator.SetTrigger("hide");
@@ -166,9 +175,12 @@ namespace Elka.UI.Controller
         public virtual void @Destroy()
         {
             
-            UIController.onAnimationOut?.Invoke(this);
-
-            AssetManager.ReleaseInstance(GetInstantiatable());
+            UIController.onAnimationOut?.SafeInvoke(this);
+            if (Cacheable)
+            {
+                GetInstantiatable().SetActive(false);
+            }else
+                AssetManager.ReleaseInstance(GetInstantiatable());
             
         }
 
@@ -200,9 +212,40 @@ namespace Elka.UI.Controller
 
         public bool hasOverlayBackground => _overlayBackground;
 
+        public UICloseMode CloseMode => closeMode;
+
+        public bool Cacheable => CloseMode == UICloseMode.HideOnly;
+
         public Canvas GetCanvas()
         {
             return GetComponent<Canvas>();
+        }
+
+        public void ResetVisualState()
+        {
+            //if (_rt != null)
+            //{
+            //    _rt.anchoredPosition = _initialAnchoredPos;
+            //    _rt.localScale = _initialLocalScale;
+            //    _rt.localRotation = _initialLocalRot;
+            //}
+
+            if (animator != null)
+            {
+                // Reset animator to default state (prevents being stuck in "hidden" pose)
+                animator.Rebind();
+                animator.UpdateTime(0f);
+            }
+        }
+
+        public bool Equals(IUserInterface x, IUserInterface y)
+        {
+            return !string.IsNullOrEmpty(x.PageName) || !string.IsNullOrEmpty(y.PageName) || x.PageName.Equals(y.PageName);
+        }
+
+        public int GetHashCode(IUserInterface obj)
+        {
+            return HashCode.Combine(mPageName, name);
         }
         #endregion
     }

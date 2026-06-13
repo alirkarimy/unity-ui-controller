@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Elka.UI.Controller
 {
@@ -51,6 +52,18 @@ namespace Elka.UI.Controller
             if (PersistentWhileSceneChanges)
                 DontDestroyOnLoad(gameObject);
 
+        }
+
+        protected virtual void Update()
+        {
+            if (enableEscape && isShowing)
+            {
+                var cancelAction = InputSystem.actions?.FindAction("Cancel");
+                if (cancelAction != null && cancelAction.triggered)
+                {
+                    Close();
+                }
+            }
         }
      
      

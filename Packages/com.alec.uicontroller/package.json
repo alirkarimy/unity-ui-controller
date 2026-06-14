@@ -1,6 +1,6 @@
 {
   "name": "com.alec.uicontroller",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "displayName": "UI Controller System",
   "description": "A system for managing UI in Unity projects",
   "unity": "6000.0",

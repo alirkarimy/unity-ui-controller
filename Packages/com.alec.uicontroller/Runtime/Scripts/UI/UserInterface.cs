@@ -34,6 +34,8 @@ namespace Elka.UI.Controller
         private string mPageName;
         private UIShowType mShowType;
         [SerializeField] private UICloseMode closeMode = UICloseMode.ReleaseInstance;
+  public bool IsShowing => isShowing;
+
 
         #endregion
 
@@ -75,12 +77,7 @@ namespace Elka.UI.Controller
                 Close();
             }
         }
-
-        public bool IsShowing()
-        {
-            return isShowing;
-        }
-
+      
         public void PlaySFX()
         {
             // TODD : Play Sound Effects

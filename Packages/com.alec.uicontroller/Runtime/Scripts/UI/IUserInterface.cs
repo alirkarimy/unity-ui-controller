@@ -18,6 +18,7 @@ namespace Elka.UI.Controller
 
         bool PersistentWhileSceneChanges { get; }
         bool hasOverlayBackground { get; }
+        bool IsShowing {get;}
 
         string PageName { set; get; }
         UIShowType ShowType { set; get; }

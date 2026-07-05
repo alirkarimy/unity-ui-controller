@@ -198,7 +198,10 @@ namespace Elka.UI.Controller
                 dialogs.Push(ui);
             // پنل A را نمایش می‌دهیم
             currentWindow = ui;
-            ui.Show();
+            // If the dialog is already showing (e.g. OVER_CURRENT beneath page
+            // that was never hidden), don't replay its show animation.
+            if (!ui.IsShowing())
+                ui.Show();
         }
 
         #endregion

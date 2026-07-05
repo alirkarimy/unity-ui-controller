@@ -200,8 +200,8 @@ namespace Elka.UI.Controller
             currentWindow = ui;
             // If the dialog is already showing (e.g. OVER_CURRENT beneath page
             // that was never hidden), don't replay its show animation.
-            if (!ui.IsShowing)
-                ui.Show();
+            ui.ShowType = option;
+            ui.Show();
         }
 
         #endregion

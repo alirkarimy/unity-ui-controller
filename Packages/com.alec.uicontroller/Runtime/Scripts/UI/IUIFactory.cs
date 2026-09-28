@@ -1,8 +1,9 @@
-﻿namespace Elka.UI.Controller
+﻿using System.Threading.Tasks;
+namespace Elka.UI.Controller
 {
     public interface IUIFactory
     {
-        IUserInterface GetUIAsync(string pageName);
+        Task<IUserInterface> GetUIAsync(string pageName);
 
     }
 

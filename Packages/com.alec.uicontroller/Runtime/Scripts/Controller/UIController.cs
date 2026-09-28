@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Elka.UI.Controller
 {
@@ -119,10 +120,6 @@ namespace Elka.UI.Controller
         {
             Debug.Log($"Hide {dialog?.PageName}");
 
-            if (currentWindow != null
-                && !currentWindow.PageName.Equals(dialog.PageName, StringComparison.OrdinalIgnoreCase))
-                return;
-
             if (dialogs.Count == 0)
             {
                 currentWindow = null;
@@ -136,14 +133,15 @@ namespace Elka.UI.Controller
         #region Prepare Dialog in Async mode
 
 
-        public static void ShowDialogAsync(string pageName, UIShowType option = UIShowType.REPLACE_CURRENT)
+        public static async void ShowDialogAsync(string pageName, UIShowType option = UIShowType.REPLACE_CURRENT)
         {
-            IUserInterface dialog = GetDialogAsync(pageName);
+            IUserInterface dialog = await GetDialogAsync(pageName);
+            if (dialog == null) return;
             ShowDialog(dialog, option);
         }
-        public static IUserInterface GetDialogAsync(string pageName)
+        public static async Task<IUserInterface> GetDialogAsync(string pageName)
         {
-            return uiFactory.GetUIAsync(pageName);
+            return await uiFactory.GetUIAsync(pageName);
         }
 
         #endregion
@@ -198,6 +196,7 @@ namespace Elka.UI.Controller
                 dialogs.Push(ui);
             // پنل A را نمایش می‌دهیم
             currentWindow = ui;
+            ui.ShowType = option;
             ui.Show();
         }
 

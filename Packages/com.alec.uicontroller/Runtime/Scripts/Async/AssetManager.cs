@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 namespace Elka.UI.Controller
@@ -20,9 +20,11 @@ namespace Elka.UI.Controller
         }
 
 
-        public static GameObject InstantiateAsync(string assetName)
+        public static async Task<GameObject> InstantiateAsync(string assetName)
         {
-            return Addressables.InstantiateAsync(assetName).WaitForCompletion();
+            var handle = Addressables.InstantiateAsync(assetName);
+            await handle.Task;
+            return handle.Result;
         }
         public static bool ReleaseInstance(GameObject t)
         {

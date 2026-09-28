@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Elka.UI.Controller
@@ -9,7 +10,7 @@ namespace Elka.UI.Controller
         private readonly Dictionary<string, IUserInterface> _cache =
             new Dictionary<string, IUserInterface>(StringComparer.OrdinalIgnoreCase);
 
-        public IUserInterface GetUIAsync(string pageName)
+        public async Task<IUserInterface> GetUIAsync(string pageName)
         {
             // 1) Cached?
             if (_cache.TryGetValue(pageName, out var cached))
@@ -22,8 +23,8 @@ namespace Elka.UI.Controller
                 _cache.Remove(pageName); // cleanup dead reference
             }
 
-            // 2) Instantiate via Addressables
-            var go = AssetManager.InstantiateAsync(pageName);
+            // 2) Instantiate via Addressables (real async)
+            var go = await AssetManager.InstantiateAsync(pageName);
             if (go == null) return null;
 
             var ui = go.GetComponent<IUserInterface>();

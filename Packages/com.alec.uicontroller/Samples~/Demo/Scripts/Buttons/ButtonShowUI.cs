@@ -9,12 +9,7 @@
         {
             base.OnButtonClick();
 
-#if !async
-        UIController.ShowDialogAsync(UIToShow.ToString(), UIShowType);
-#else
-            UIController.ShowDialog(UIToShow.ToString(), UIShowType);
-#endif
-
+            UIController.ShowDialogAsync(UIToShow.ToString(), UIShowType);
         }
     }
 }

@@ -34,6 +34,8 @@ namespace Elka.UI.Controller
         private string mPageName;
         private UIShowType mShowType;
         [SerializeField] private UICloseMode closeMode = UICloseMode.ReleaseInstance;
+  public bool IsShowing => isShowing;
+
 
         #endregion
 
@@ -75,12 +77,7 @@ namespace Elka.UI.Controller
                 Close();
             }
         }
-
-        public bool IsShowing()
-        {
-            return isShowing;
-        }
-
+      
         public void PlaySFX()
         {
             // TODD : Play Sound Effects
@@ -91,7 +88,12 @@ namespace Elka.UI.Controller
 
         public virtual void Show()
         {
-            ResetVisualState();
+            // When returning to a previously-shown page (SHOW_PREVIOUS), the
+            // show animation has already played once — don't replay it.
+            bool skipAnimation = mShowType == UIShowType.SHOW_PREVIOUS;
+
+            if (!skipAnimation)
+                ResetVisualState();
 
             GetInstantiatable().SetActive(true);
             GetCanvas().sortingOrder = UIController.CurrentWindowSortOrder;
